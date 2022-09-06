@@ -121,8 +121,8 @@ const animateTvScreen = () => {
 
   requestAnimationFrame(animateTvScreen);
 
-  var src = "./images/tv_wallpaper.jpg";
+  var src = "./images/screen/frame" + frame + ".jpg";
   tv.children[0].material.map = new THREE.TextureLoader().load(src, animate);
 };
 
-//animateTvScreen(); // fix error @matcovic. uncomment this line
+animateTvScreen();
