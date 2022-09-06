@@ -25,9 +25,25 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 const light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
 
+//--------------------  create image textures of video --------------------
+
+const video = document.getElementById("video");
+const videoTexture = new THREE.VideoTexture(video);
+
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+
+var movieMaterial = new THREE.MeshBasicMaterial({
+  map: videoTexture,
+  side: THREE.FrontSide,
+  toneMapped: false,
+});
+
 // loop to render the scene
 function animate() {
   requestAnimationFrame(animate);
+  // update video texture with new image of video (series of images)
+  videoTexture.needsUpdate = true;
   renderer.render(scene, camera);
 }
 
@@ -36,7 +52,7 @@ function animate() {
 const room = create_room();
 scene.add(room);
 
-const tv = createTv(animate);
+const tv = createTv(movieMaterial);
 scene.add(tv);
 
 const table = createTable();
@@ -51,6 +67,7 @@ animate();
 
 // mouse listener
 document.addEventListener("mousemove", function (event) {
+  video.play();
   // move mouse to move the light
   vec.set(
     (event.clientX / window.innerWidth) * 2 - 1,
@@ -108,21 +125,21 @@ window.addEventListener(
 );
 
 // ------------------ animating screen -------------------
-var frame = 0;
-var count = 0;
-const animateTvScreen = () => {
-  // changing frame every 3 iterations upto 183
-  if (count == 3) {
-    frame = (frame + 1) % 183;
-    count = 0;
-  } else {
-    count++;
-  }
+// var frame = 0;
+// var count = 0;
+// const animateTvScreen = () => {
+//   // changing frame every 3 iterations upto 183
+//   if (count == 3) {
+//     frame = (frame + 1) % 183;
+//     count = 0;
+//   } else {
+//     count++;
+//   }
 
-  requestAnimationFrame(animateTvScreen);
+//   requestAnimationFrame(animateTvScreen);
 
-  var src = "./images/screen/frame" + frame + ".jpg";
-  tv.children[0].material.map = new THREE.TextureLoader().load(src, animate);
-};
+//   var src = "./images/screen/frame" + frame + ".jpg";
+//   tv.children[0].material.map = new THREE.TextureLoader().load(src, animate);
+// };
 
-animateTvScreen();
+// animateTvScreen();

@@ -24,7 +24,7 @@ const createLight = () => {
   return pointLight;
 };
 
-const createTv = (animate) => {
+const createTv = (movieMaterial) => {
   const tvBody = new THREE.BoxGeometry(7.1, 4.1, 0.3);
   const tvBodyTexture = new THREE.MeshStandardMaterial({
     color: 0xad3547,
@@ -34,14 +34,7 @@ const createTv = (animate) => {
 
   const screen = new THREE.PlaneGeometry(6.7, 3.7);
 
-  const screenTexture = new THREE.TextureLoader().load(
-    "./images/tv_wallpaper.jpg",
-    animate
-  );
-  const screenMaterialTexture = new THREE.MeshBasicMaterial({
-    map: screenTexture,
-  });
-  const tvScreen = new THREE.Mesh(screen, screenMaterialTexture);
+  const tvScreen = new THREE.Mesh(screen, movieMaterial);
 
   tvMesh.position.z = -0.16;
   tvMesh.attach(tvScreen);
